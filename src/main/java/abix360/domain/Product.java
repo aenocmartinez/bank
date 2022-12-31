@@ -1,6 +1,7 @@
 package abix360.domain;
 
 import java.util.Date;
+import java.util.Random;
 
 import abix360.dao.ProductDAO;
 
@@ -122,7 +123,8 @@ public abstract class Product {
 	}
 	
 	protected String generateNumber() {
-		return "";
+		Random r = new Random();		
+		return String.format("%8d", r.nextInt(99999999));
 	}
 
 	

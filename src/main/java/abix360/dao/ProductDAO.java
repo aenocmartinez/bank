@@ -8,8 +8,13 @@ public class ProductDAO implements ProductRepository {
 
 	@Override
 	public boolean create(Product product) {
-		// TODO Auto-generated method stub
-		return false;
+		System.out.println("");
+		System.out.println("***************** Guarda producto en DAO *****************");
+		System.out.println("");
+		System.out.println(product.getType() + " - " + product.getNumber());
+		System.out.println("");
+		System.out.println("");
+		return true;
 	}
 
 	@Override

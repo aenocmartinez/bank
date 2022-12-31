@@ -1,14 +1,20 @@
 package abix360.domain;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
 import abix360.dao.ClientDAO;
+import abix360.dao.ProductDAO;
 import abix360.domain.repositories.ClientRepository;
+import abix360.domain.repositories.ProductRepository;
 
 public class Client {
 	
 	private ClientRepository clientDao = new ClientDAO();
+	private ProductRepository productDao = new ProductDAO();
 
 	private int id;
 	private String documentType;
@@ -132,22 +138,8 @@ public class Client {
 		return this;
 	}
 
-	public boolean create(char typeProduct) {
-		
-		boolean success = this.clientDao.create(this);
-		if (!success){
-			System.out.println("Error domain/client/create: al crear el cliente");
-			return false;
-		}
-		
-		Product product = new SavingsAccount();
-		if (typeProduct == 'C') {
-			product = new CheckingAccount();
-		}
-		
-		product.assignNumber();
-		
-		return this.addProduct(product);
+	public boolean create() {		
+		return this.clientDao.create(this);
 	}
 
 	public boolean delete() {
@@ -159,19 +151,21 @@ public class Client {
 	}
 
 	public boolean isAdult() {
-		return false;
+        LocalDate dateConvert = this.dateOfBirth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        Period yearsOld = Period.between(dateConvert, LocalDate.now());
+        return  yearsOld.getYears() >= 18;
 	}
 
 	public boolean hasProductUncancelled() {
 		return false;
 	}
 
-	public Client findClientById(int id) {
+	public static Client findClientById(int id) {
 		return null;
 	}
 
-	public Client findClientByDocument(String documentType, String document) {
-		return null;
+	public static Client findClientByDocument(String documentType, String document) {
+		return new Client();
 	}
 
 	public static ArrayList<Client> all() {
@@ -183,6 +177,11 @@ public class Client {
 	}
 
 	public boolean addProduct(Product product) {
+		boolean success = this.productDao.create(product);
+		if (!success) {
+			return false;
+		}
+		
 		return this.clientDao.addProductToClient(this, product);
 	}
 
@@ -192,5 +191,9 @@ public class Client {
 
 	public boolean cancelProduct(Product product) {
 		return false;
+	}
+	
+	public boolean exists() {
+		return this.id > 0;
 	}
 }

@@ -10,8 +10,13 @@ public class ClientDAO implements ClientRepository {
 
 	@Override
 	public boolean create(Client client) {
-		// TODO Auto-generated method stub
-		return false;
+		System.out.println("");
+		System.out.println("*********** ClienteDAO ***********");
+		System.out.println(client.getName() + " " + client.getLastName());
+		System.out.println(client.getDocumentType() + " " + client.getDocument());
+		System.out.println("");
+		System.out.println("");
+		return true;
 	}
 
 	@Override
@@ -40,8 +45,13 @@ public class ClientDAO implements ClientRepository {
 
 	@Override
 	public boolean addProductToClient(Client client, Product product) {
-		// TODO Auto-generated method stub
-		return false;
+		System.out.println("");
+		System.out.println("*********** ClienteDAO / Agrega cuenta de ahorro ***********");
+		System.out.println("Agrega cuenta: " + product.getType() + " - " + product.getNumber());
+		System.out.println("Cliente: " + client.getDocumentType() + " - " + client.getDocument());
+		System.out.println("");
+		System.out.println("");
+		return true;
 	}
 
 	@Override
